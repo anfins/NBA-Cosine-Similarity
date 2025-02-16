@@ -6,13 +6,18 @@ const Homepage = () => {
   const [result, setResult] = useState("");
 
   const handleClick = async () => {
+    /**
+     * This function sends the playerInput to the server and gets the result  
+     * The result is then set to the result state
+     */
     try {
+      //Send playerInput to the server at PORT 5000 and gets the result
       const response = await axios.post("http://localhost:5000/run-python", {
         playerInput,
       });
       setResult(response.data.result);
     } catch (error) {
-      console.error("Error calling Python script:", error);
+      console.error("Error calling Python script:", error); 
     }
   };
 

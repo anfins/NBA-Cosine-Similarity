@@ -14,7 +14,7 @@ import json
 import ast
 
 
-playerStats = pd.read_csv("playerStats.csv", sep = ",")
+playerStats = pd.read_csv("../../Assets/playerStats.csv", sep = ",")
 
 def cosine_sim(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
@@ -39,12 +39,18 @@ def find_comparison(player):
     # Sort by similarity score in descending order
     similarities.sort(key=lambda x: x[1], reverse=True)
     
-    print("something")
-    return similarities[:5]
+    # Get top 5 similar players
+    top_5 = similarities[:5]
+    
+
+    # Print to stdout as JSON
+    print(json.dumps(top_5))
+    sys.stdout.flush()
 
 
-input = sys.argv[1]
-output = find_comparison(input)
 
-sys.stdout.write(json.dumps(output))
 
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        player_name = sys.argv[1]
+        find_comparison(player_name)

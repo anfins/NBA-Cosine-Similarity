@@ -7,8 +7,15 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+//Listens for a POST request from the frontend
+//**
+// Req = {playerInput: "playerInput"}
+// Res = {result: "result"}
+//  */
 app.post("/run-python", (req, res) => {
+  //Gets the playerInput from the frontend
   const { playerInput } = req.body;
+  console.log(playerInput);
 
   // Spawn a Python process
   const pythonProcess = spawn("python3", [
@@ -20,6 +27,7 @@ app.post("/run-python", (req, res) => {
   pythonProcess.stdout.on("data", (data) => {
     resultData += data.toString();
   });
+  console.log(resultData);
 
   pythonProcess.on("close", () => {
     res.json({ result: resultData.trim() });
