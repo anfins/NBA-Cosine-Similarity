@@ -9,6 +9,9 @@ import requests                         # allows to work with websites
 import re                               # allows to use regular expressions
 from statistics import mean
 from math import sqrt
+import sys
+import json
+import ast
 
 
 playerStats = pd.read_csv("playerStats.csv", sep = ",")
@@ -40,5 +43,8 @@ def find_comparison(player):
     return similarities[:5]
 
 
-print(find_comparison("LeBron James"))
+input = sys.argv[1]
+output = find_comparison(input)
+
+sys.stdout.write(json.dumps(output))
 
