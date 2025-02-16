@@ -39,7 +39,7 @@ def find_comparison(player):
     # Sort by similarity score in descending order
     similarities.sort(key=lambda x: x[1], reverse=True)
     
-
+    print("something")
     return similarities[:5]
 
 
