@@ -19,9 +19,12 @@ def cosine_sim(a, b):
 def find_comparison(player):
     # Get the stats for the target player
     player_data = playerStats.loc[playerStats['Player'] == player].iloc[0]
+    print(player_data)
     
     # Select numerical columns for comparison (excluding Player name and any other non-numeric columns)
     numeric_cols = playerStats.select_dtypes(include=[np.number]).columns
+    numeric_cols = numeric_cols.drop('Awards') #excluding awards column
+    print(numeric_cols)
     
     # Calculate cosine similarity with all other players
     similarities = []
@@ -33,8 +36,9 @@ def find_comparison(player):
     # Sort by similarity score in descending order
     similarities.sort(key=lambda x: x[1], reverse=True)
     
-    # Print the top 5 most similar players
-    print(f"\nMost similar players to {player}:")
-    for player_name, sim_score in similarities[:5]:
-        print(f"{player_name}: {sim_score:.3f}")
+
+    return similarities[:5]
+
+
+print(find_comparison("LeBron James"))
 
