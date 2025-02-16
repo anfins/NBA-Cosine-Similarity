@@ -14,7 +14,7 @@ import json
 import ast
 
 
-playerStats = pd.read_csv("../../Assets/playerStats.csv", sep = ",")
+playerStats = pd.read_csv("./playerstats.csv", sep = ",")
 
 def cosine_sim(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
