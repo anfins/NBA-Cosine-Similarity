@@ -1,5 +1,5 @@
 .container {
-  background-color: #000;
+  background-color: #4e1aaf;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,4 +16,17 @@
   border-radius: 0.5rem;
   padding: 0.5rem;
   width: 10rem;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.title {
+  color: white;
 }

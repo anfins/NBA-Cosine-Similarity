@@ -23,19 +23,19 @@ const Homepage = () => {
 
   return (
     <div className="container">
-      <div className="input-container">
-        <input
-          type="text"
-          placeholder="Enter text..."
-          onChange={(e) => setPlayerInput(e.target.value)}
-          className="input-field"
-        />
-        <button
-          onClick={handleClick}
-          className="submit-button"
-        >
-          Submit
-        </button>
+      <div className="content">
+        <h1 className="title">NBA Player Comparison</h1>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Enter text..."
+            onChange={(e) => setPlayerInput(e.target.value)}
+            className="input-field"
+          />
+          <button onClick={handleClick} className="submit-button">
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );
