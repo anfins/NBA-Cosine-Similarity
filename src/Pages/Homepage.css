@@ -1,0 +1,19 @@
+.container {
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.input-field {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 20rem;
+}
+
+.submit-button {
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 10rem;
+}

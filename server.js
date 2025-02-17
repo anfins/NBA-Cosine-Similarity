@@ -13,28 +13,38 @@ app.use(bodyParser.json());
 // Res = {result: "result"}
 //  */
 app.post("/run-python", (req, res) => {
-  //Gets the playerInput from the frontend
   const { playerInput } = req.body;
-  console.log(playerInput);
+  console.log("Searching for player:", playerInput);
 
-  // Spawn a Python process
   const pythonProcess = spawn("python3", [
     "./src/Scripts/CosineSim.py",
     playerInput,
   ]);
 
   let resultData = "";
+
   pythonProcess.stdout.on("data", (data) => {
     resultData += data.toString();
   });
-  console.log(resultData);
-
-  pythonProcess.on("close", () => {
-    res.json({ result: resultData.trim() });
-  });
 
   pythonProcess.stderr.on("data", (data) => {
-    res.status(500).json({ error: data.toString() });
+    console.error(`Python Error: ${data}`);
+    // Don't send response here, store the error
+    resultData = null;
+  });
+
+  pythonProcess.on("close", (code) => {
+    if (resultData === null) {
+      return res.status(500).json({ error: "Python script error" });
+    }
+
+    try {
+      const parsedData = JSON.parse(resultData.trim());
+      res.json({ result: parsedData });
+    } catch (error) {
+      console.error("Error parsing Python output:", error);
+      res.status(500).json({ error: "Failed to parse results" });
+    }
   });
 });
 

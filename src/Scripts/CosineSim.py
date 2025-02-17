@@ -13,14 +13,21 @@ import sys
 import json
 import ast
 
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+# Construct the path to the CSV file
+csv_path = os.path.join(script_dir, "playerstats.csv")
 
-playerStats = pd.read_csv("./playerstats.csv", sep = ",")
+# Use the full path to read the CSV
+playerStats = pd.read_csv(csv_path, sep=",")
 
 def cosine_sim(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 def find_comparison(player):
     # Get the stats for the target player
+    player = player.strip()
+    print(player)
     player_data = playerStats.loc[playerStats['Player'] == player].iloc[0]
     print(player_data)
     
@@ -38,13 +45,12 @@ def find_comparison(player):
     
     # Sort by similarity score in descending order
     similarities.sort(key=lambda x: x[1], reverse=True)
-    
     # Get top 5 similar players
-    top_5 = similarities[:5]
+    #top_5 = similarities[:5]
     
-
+    # Hard coded return value for testing
     # Print to stdout as JSON
-    print(json.dumps(top_5))
+    print(json.dumps("bee"))
     sys.stdout.flush()
 
 
