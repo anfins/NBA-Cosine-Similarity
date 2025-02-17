@@ -25,36 +25,34 @@ def cosine_sim(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
 
 def find_comparison(player):
-    # Get the stats for the target player
-    player = player.strip()
-    print(player)
-    player_data = playerStats.loc[playerStats['Player'] == player].iloc[0]
-    print(player_data)
-    
-    # Select numerical columns for comparison (excluding Player name and any other non-numeric columns)
-    numeric_cols = playerStats.select_dtypes(include=[np.number]).columns
-    numeric_cols = numeric_cols.drop('Awards') #excluding awards column
-    print(numeric_cols)
-    
-    # Calculate cosine similarity with all other players
-    similarities = []
-    for row, rowSeries in playerStats.iterrows():
-        if rowSeries['Player'] != player:  # Skip comparing player with themselves
-            similarity = cosine_sim(player_data[numeric_cols], rowSeries[numeric_cols])
-            similarities.append((rowSeries['Player'], similarity))
-    
-    # Sort by similarity score in descending order
-    similarities.sort(key=lambda x: x[1], reverse=True)
-    # Get top 5 similar players
-    #top_5 = similarities[:5]
-    
-    # Hard coded return value for testing
-    # Print to stdout as JSON
-    print(json.dumps("bee"))
-    sys.stdout.flush()
-
-
-
+    try:
+        # Get the stats for the target player
+        playerStripped = player.strip()
+        player_data = playerStats.loc[playerStats['Player'] == playerStripped].iloc[0]
+        
+        # Select numerical columns for comparison
+        numeric_cols = playerStats.select_dtypes(include=[np.number]).columns
+        numeric_cols = numeric_cols.drop('Awards') #excluding awards column
+        
+        # Calculate cosine similarity with all other players
+        similarities = []
+        for row, rowSeries in playerStats.iterrows():
+            if rowSeries['Player'] != player:  # Skip comparing player with themselves
+                similarity = cosine_sim(player_data[numeric_cols], rowSeries[numeric_cols])
+                similarities.append([rowSeries['Player'], float(similarity)])  # Convert to list and float
+        
+        # Sort by similarity score in descending order
+        similarities.sort(key=lambda x: x[1], reverse=True)
+        # Get top 5 similar players
+        top_5 = similarities[:5]
+        
+        # Ensure proper JSON formatting
+        print(json.dumps(top_5))  # This is the only print statement that should output results
+        sys.stdout.flush()
+        
+    except Exception as e:
+        print(json.dumps({"error": str(e)}))
+        sys.stdout.flush()
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

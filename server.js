@@ -24,6 +24,7 @@ app.post("/run-python", (req, res) => {
   let resultData = "";
 
   pythonProcess.stdout.on("data", (data) => {
+    console.log(data.toString());
     resultData += data.toString();
   });
 

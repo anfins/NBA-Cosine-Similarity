@@ -5,6 +5,7 @@ const Homepage = () => {
   const [playerInput, setPlayerInput] = useState("");
   const [result, setResult] = useState("");
 
+  console.log(result);
   const handleClick = async () => {
     /**
      * This function sends the playerInput to the server and gets the result
@@ -36,6 +37,18 @@ const Homepage = () => {
             Submit
           </button>
         </div>
+        {result && (
+          <div className="results-container">
+            <h2>Most Similar Players:</h2>
+            <ul>
+              {(result).map((player, index) => (
+                <li key={index}>
+                  {player[0]} - Similarity Score: {player[1].toFixed(3)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
